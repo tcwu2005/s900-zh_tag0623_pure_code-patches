@@ -1,0 +1,1756 @@
+diff --git a/arch/arm64/boot/dts/s900_96board.dts b/arch/arm64/boot/dts/s900_96board.dts
+index cce9cb8..b50b51a 100755
+--- a/arch/arm64/boot/dts/s900_96board.dts
++++ b/arch/arm64/boot/dts/s900_96board.dts
+@@ -447,8 +447,8 @@
+ 			hotplugable = <1>;
+ 			hotplug_always_on = <1>;
+ 
+-			draw_width = <1920>;
+-			draw_height = <1080>;
++			draw_width = <1334>;
++			draw_height = <750>;
+ 
+ 		};
+ 	};
+diff --git a/arch/arm64/configs/owl_evb_defconfig b/arch/arm64/configs/owl_evb_defconfig
+index 2bf86ef..8616958 100755
+--- a/arch/arm64/configs/owl_evb_defconfig
++++ b/arch/arm64/configs/owl_evb_defconfig
+@@ -88,17 +88,21 @@ CONFIG_RCU_FANOUT_LEAF=16
+ # CONFIG_TREE_RCU_TRACE is not set
+ # CONFIG_RCU_BOOST is not set
+ # CONFIG_RCU_NOCB_CPU is not set
+-# CONFIG_IKCONFIG is not set
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
+ CONFIG_LOG_BUF_SHIFT=17
+ CONFIG_GENERIC_SCHED_CLOCK=y
+ CONFIG_CGROUPS=y
+ CONFIG_CGROUP_DEBUG=y
+ CONFIG_CGROUP_FREEZER=y
+-# CONFIG_CGROUP_DEVICE is not set
+-# CONFIG_CPUSETS is not set
++CONFIG_CGROUP_DEVICE=y
++CONFIG_CPUSETS=y
++CONFIG_PROC_PID_CPUSET=y
+ CONFIG_CGROUP_CPUACCT=y
+ CONFIG_RESOURCE_COUNTERS=y
+-# CONFIG_MEMCG is not set
++CONFIG_MEMCG=y
++# CONFIG_MEMCG_SWAP is not set
++# CONFIG_MEMCG_KMEM is not set
+ # CONFIG_CGROUP_PERF is not set
+ CONFIG_CGROUP_SCHED=y
+ CONFIG_FAIR_GROUP_SCHED=y
+@@ -106,10 +110,16 @@ CONFIG_FAIR_GROUP_SCHED=y
+ CONFIG_RT_GROUP_SCHED=y
+ # CONFIG_BLK_CGROUP is not set
+ # CONFIG_CHECKPOINT_RESTORE is not set
+-# CONFIG_NAMESPACES is not set
++CONFIG_NAMESPACES=y
++CONFIG_UTS_NS=y
++CONFIG_IPC_NS=y
++CONFIG_USER_NS=y
++CONFIG_PID_NS=y
++CONFIG_NET_NS=y
+ CONFIG_UIDGID_CONVERTED=y
+-# CONFIG_UIDGID_STRICT_TYPE_CHECKS is not set
++CONFIG_UIDGID_STRICT_TYPE_CHECKS=y
+ # CONFIG_SCHED_AUTOGROUP is not set
++CONFIG_MM_OWNER=y
+ # CONFIG_SYSFS_DEPRECATED is not set
+ # CONFIG_RELAY is not set
+ CONFIG_BLK_DEV_INITRD=y
+@@ -238,6 +248,7 @@ CONFIG_ARM_AMBA=y
+ #
+ # Kernel Features
+ #
++
+ #
+ # ARM errata workarounds
+ #
+@@ -482,6 +493,7 @@ CONFIG_NETWORK_SECMARK=y
+ CONFIG_NETFILTER=y
+ # CONFIG_NETFILTER_DEBUG is not set
+ CONFIG_NETFILTER_ADVANCED=y
++CONFIG_BRIDGE_NETFILTER=y
+ 
+ #
+ # Core Netfilter Configuration
+@@ -593,6 +605,7 @@ CONFIG_NETFILTER_XT_MATCH_MARK=y
+ # CONFIG_NETFILTER_XT_MATCH_OSF is not set
+ # CONFIG_NETFILTER_XT_MATCH_OWNER is not set
+ CONFIG_NETFILTER_XT_MATCH_POLICY=y
++# CONFIG_NETFILTER_XT_MATCH_PHYSDEV is not set
+ CONFIG_NETFILTER_XT_MATCH_PKTTYPE=y
+ CONFIG_NETFILTER_XT_MATCH_QTAGUID=y
+ CONFIG_NETFILTER_XT_MATCH_QUOTA=y
+@@ -666,16 +679,23 @@ CONFIG_IP6_NF_MANGLE=y
+ CONFIG_IP6_NF_RAW=y
+ # CONFIG_IP6_NF_SECURITY is not set
+ # CONFIG_NF_NAT_IPV6 is not set
++# CONFIG_BRIDGE_NF_EBTABLES is not set
+ # CONFIG_IP_DCCP is not set
+ # CONFIG_IP_SCTP is not set
+ # CONFIG_RDS is not set
+ # CONFIG_TIPC is not set
+ # CONFIG_ATM is not set
+ # CONFIG_L2TP is not set
+-# CONFIG_BRIDGE is not set
++CONFIG_STP=y
++CONFIG_BRIDGE=y
++CONFIG_BRIDGE_IGMP_SNOOPING=y
++# CONFIG_BRIDGE_VLAN_FILTERING is not set
+ CONFIG_HAVE_NET_DSA=y
+-# CONFIG_VLAN_8021Q is not set
++CONFIG_VLAN_8021Q=y
++# CONFIG_VLAN_8021Q_GVRP is not set
++# CONFIG_VLAN_8021Q_MVRP is not set
+ # CONFIG_DECNET is not set
++CONFIG_LLC=y
+ # CONFIG_LLC2 is not set
+ # CONFIG_IPX is not set
+ # CONFIG_ATALK is not set
+@@ -960,6 +980,11 @@ CONFIG_UID_STAT=y
+ # CONFIG_ALTERA_STAPL is not set
+ 
+ #
++# ACTIONS MISC INFO ACCESS DRIVER
++#
++CONFIG_MISC_INFO=y
++
++#
+ # SCSI device support
+ #
+ CONFIG_SCSI_MOD=y
+@@ -1008,7 +1033,13 @@ CONFIG_HAVE_PATA_PLATFORM=y
+ CONFIG_MD=y
+ CONFIG_BLK_DEV_MD=y
+ CONFIG_MD_AUTODETECT=y
++# CONFIG_MD_LINEAR is not set
+ CONFIG_MD_RAID0=y
++# CONFIG_MD_RAID1 is not set
++# CONFIG_MD_RAID10 is not set
++# CONFIG_MD_RAID456 is not set
++# CONFIG_MD_MULTIPATH is not set
++# CONFIG_MD_FAULTY is not set
+ # CONFIG_BCACHE is not set
+ CONFIG_BLK_DEV_DM_BUILTIN=y
+ CONFIG_BLK_DEV_DM=y
+@@ -1035,13 +1066,14 @@ CONFIG_NET_CORE=y
+ CONFIG_MII=y
+ # CONFIG_IFB is not set
+ # CONFIG_NET_TEAM is not set
+-# CONFIG_MACVLAN is not set
++CONFIG_MACVLAN=y
++# CONFIG_MACVTAP is not set
+ # CONFIG_VXLAN is not set
+ # CONFIG_NETCONSOLE is not set
+ # CONFIG_NETPOLL is not set
+ # CONFIG_NET_POLL_CONTROLLER is not set
+ CONFIG_TUN=y
+-# CONFIG_VETH is not set
++CONFIG_VETH=y
+ 
+ #
+ # CAIF transport drivers
+@@ -1107,7 +1139,6 @@ CONFIG_REALTEK_PHY=y
+ # CONFIG_NATIONAL_PHY is not set
+ # CONFIG_STE10XP is not set
+ # CONFIG_LSI_ET1011C_PHY is not set
+-
+ CONFIG_MICREL_PHY=y
+ # CONFIG_FIXED_PHY is not set
+ # CONFIG_MDIO_BITBANG is not set
+@@ -1183,7 +1214,6 @@ CONFIG_BCMDHD_AP6335=m
+ CONFIG_RTL8723BS=m
+ # CONFIG_RTL8723VQ0 is not set
+ CONFIG_RTL8723BU=m
+-CONFIG_RTL8188ETV=m
+ # CONFIG_ATH_CARDS is not set
+ # CONFIG_B43 is not set
+ # CONFIG_B43LEGACY is not set
+@@ -2024,16 +2054,16 @@ CONFIG_ACTIONS_CAMERA=y
+ CONFIG_OWL_CAMERA_ISP=m
+ CONFIG_OWL_CAMERA_IMX=m
+ CONFIG_OWL_CAMERA_SI=m
+-CONFIG_OV5645=m
+-CONFIG_OV2685=m
+-CONFIG_IMX0219=m
+ CONFIG_GC5004=m
+ CONFIG_GC2755=m
+ CONFIG_GC2155=m
+ CONFIG_GC0312=m
+ CONFIG_GS5604=m
+-CONFIG_FLASHLIGHT=m
++CONFIG_IMX0219=m
++CONFIG_OV2685=m
++CONFIG_OV5645=m
+ CONFIG_TC358749=m
++CONFIG_FLASHLIGHT=m
+ 
+ #
+ # Tools to develop new frontends
+@@ -2047,6 +2077,7 @@ CONFIG_TC358749=m
+ CONFIG_IMG_POWERVR_GPU=y
+ # CONFIG_POWERVR_SGX_5xx is not set
+ CONFIG_POWERVR_ROGUE=m
++# CONFIG_POWERVR_ROGUE_LINUX is not set
+ # CONFIG_VGASTATE is not set
+ # CONFIG_VIDEO_OUTPUT_CONTROL is not set
+ CONFIG_FB=y
+@@ -2129,6 +2160,7 @@ CONFIG_BACKLIGHT_GENERIC=y
+ # CONFIG_BACKLIGHT_LM3630 is not set
+ # CONFIG_BACKLIGHT_LM3639 is not set
+ # CONFIG_BACKLIGHT_LP855X is not set
++CONFIG_BACKLIGHT_OWL_COMMON=y
+ CONFIG_BACKLIGHT_OWL_PWM=y
+ CONFIG_ADF=y
+ CONFIG_ADF_FBDEV=y
+@@ -2140,6 +2172,7 @@ CONFIG_SOUND=y
+ CONFIG_SND=y
+ CONFIG_SND_TIMER=y
+ CONFIG_SND_PCM=y
++CONFIG_SND_HWDEP=y
+ CONFIG_SND_RAWMIDI=y
+ CONFIG_SND_COMPRESS_OFFLOAD=y
+ CONFIG_SND_JACK=y
+@@ -2311,7 +2344,6 @@ CONFIG_USB_XHCI_PLATFORM=y
+ # CONFIG_USB_OHCI_HCD is not set
+ # CONFIG_USB_SL811_HCD is not set
+ # CONFIG_USB_R8A66597_HCD is not set
+-CONFIG_USB_AOTG_HCD=y
+ # CONFIG_USB_MUSB_HDRC is not set
+ # CONFIG_USB_RENESAS_USBHS is not set
+ 
+@@ -2351,6 +2383,8 @@ CONFIG_USB_STORAGE=y
+ #
+ # CONFIG_USB_MDC800 is not set
+ # CONFIG_USB_MICROTEK is not set
++CONFIG_USB_AOTG=y
++CONFIG_USB_AOTG_HCD=y
+ CONFIG_USB_DWC3=y
+ # CONFIG_USB_DWC3_HOST is not set
+ # CONFIG_USB_DWC3_GADGET is not set
+@@ -2565,6 +2599,7 @@ CONFIG_LEDS_TRIGGERS=y
+ # CONFIG_LEDS_TRIGGER_CPU is not set
+ # CONFIG_LEDS_TRIGGER_GPIO is not set
+ # CONFIG_LEDS_TRIGGER_DEFAULT_ON is not set
++
+ #
+ # iptables trigger is under Netfilter config (LED target)
+ #
+@@ -2825,10 +2860,10 @@ CONFIG_ANDROID_TIMED_OUTPUT=y
+ CONFIG_ANDROID_TIMED_GPIO=y
+ CONFIG_ANDROID_LOW_MEMORY_KILLER=y
+ CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES=y
+-CONFIG_ANDROID_INTF_ALARM_DEV=y
+ CONFIG_SYNC=y
+ CONFIG_SW_SYNC=y
+ CONFIG_SW_SYNC_USER=y
++CONFIG_ANDROID_CONBINDER_IPC=y
+ CONFIG_ION=y
+ CONFIG_ION_TEST=y
+ # CONFIG_ION_DUMMY is not set
+@@ -3290,23 +3325,15 @@ CONFIG_SECURITY=y
+ CONFIG_SECURITY_NETWORK=y
+ # CONFIG_SECURITY_NETWORK_XFRM is not set
+ # CONFIG_SECURITY_PATH is not set
+-CONFIG_LSM_MMAP_MIN_ADDR=65536
+-CONFIG_SECURITY_SELINUX=y
+-CONFIG_SECURITY_SELINUX_BOOTPARAM=y
+-CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE=0
+-# CONFIG_SECURITY_SELINUX_DISABLE is not set
+-CONFIG_SECURITY_SELINUX_DEVELOP=y
+-CONFIG_SECURITY_SELINUX_AVC_STATS=y
+-CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE=1
+-# CONFIG_SECURITY_SELINUX_POLICYDB_VERSION_MAX is not set
++# CONFIG_SECURITY_SELINUX is not set
+ # CONFIG_SECURITY_SMACK is not set
+ # CONFIG_SECURITY_TOMOYO is not set
+ # CONFIG_SECURITY_APPARMOR is not set
+ # CONFIG_SECURITY_YAMA is not set
+ # CONFIG_IMA is not set
+-CONFIG_DEFAULT_SECURITY_SELINUX=y
+-# CONFIG_DEFAULT_SECURITY_DAC is not set
+-CONFIG_DEFAULT_SECURITY="selinux"
++# CONFIG_DEFAULT_SECURITY_SELINUX is not set
++CONFIG_DEFAULT_SECURITY_DAC=y
++CONFIG_DEFAULT_SECURITY=""
+ CONFIG_CRYPTO=y
+ 
+ #
+@@ -3466,3 +3493,4 @@ CONFIG_AVERAGE=y
+ # CONFIG_DDR is not set
+ CONFIG_LIBFDT=y
+ CONFIG_UCS2_STRING=y
++# CONFIG_PLATFORM_UBUNTU is not set
+diff --git a/drivers/staging/android/Kconfig b/drivers/staging/android/Kconfig
+index c1acc47..3a0f736 100644
+--- a/drivers/staging/android/Kconfig
++++ b/drivers/staging/android/Kconfig
+@@ -82,7 +82,7 @@ config ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES
+ 
+ config ANDROID_INTF_ALARM_DEV
+ 	bool "Android alarm driver"
+-	depends on RTC_CLASS
++	depends on RTC_CLASS && NONONO
+ 	default n
+ 	---help---
+ 	  Provides non-wakeup and rtc backed wakeup alarms based on rtc or
+@@ -116,6 +116,10 @@ config SW_SYNC_USER
+ 	  *WARNING* improper use of this can result in deadlocking kernel
+ 	  drivers from userspace.
+ 
++config ANDROID_CONBINDER_IPC
++	bool "Android conbinder virtual driver"
++	default n
++
+ source "drivers/staging/android/ion/Kconfig"
+ 
+ source "drivers/staging/android/fiq_debugger/Kconfig"
+diff --git a/drivers/staging/android/Makefile b/drivers/staging/android/Makefile
+index 907b62f..4c92f49 100644
+--- a/drivers/staging/android/Makefile
++++ b/drivers/staging/android/Makefile
+@@ -12,3 +12,5 @@ obj-$(CONFIG_ANDROID_LOW_MEMORY_KILLER)	+= lowmemorykiller.o
+ obj-$(CONFIG_ANDROID_INTF_ALARM_DEV)	+= alarm-dev.o
+ obj-$(CONFIG_SYNC)			+= sync.o
+ obj-$(CONFIG_SW_SYNC)			+= sw_sync.o
++
++obj-$(CONFIG_ANDROID_CONBINDER_IPC)	+= conbinder.o container.o
+\ No newline at end of file
+diff --git a/drivers/staging/android/binder.c b/drivers/staging/android/binder.c
+index d4e5290..45862d1 100644
+--- a/drivers/staging/android/binder.c
++++ b/drivers/staging/android/binder.c
+@@ -2552,7 +2552,7 @@ static int binder_free_thread(struct binder_proc *proc,
+ 	return active_transactions;
+ }
+ 
+-static unsigned int binder_poll(struct file *filp,
++unsigned int binder_poll(struct file *filp,
+ 				struct poll_table_struct *wait)
+ {
+ 	struct binder_proc *proc = filp->private_data;
+@@ -2584,7 +2584,7 @@ static unsigned int binder_poll(struct file *filp,
+ 	return 0;
+ }
+ 
+-static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
++long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	int ret;
+ 	struct binder_proc *proc = filp->private_data;
+@@ -2752,7 +2752,7 @@ static struct vm_operations_struct binder_vm_ops = {
+ 	.close = binder_vma_close,
+ };
+ 
+-static int binder_mmap(struct file *filp, struct vm_area_struct *vma)
++int binder_mmap(struct file *filp, struct vm_area_struct *vma)
+ {
+ 	int ret;
+ 	struct vm_struct *area;
+@@ -2851,7 +2851,7 @@ err_bad_arg:
+ 	return ret;
+ }
+ 
+-static int binder_open(struct inode *nodp, struct file *filp)
++int binder_open(struct inode *nodp, struct file *filp)
+ {
+ 	struct binder_proc *proc;
+ 
+@@ -2887,7 +2887,7 @@ static int binder_open(struct inode *nodp, struct file *filp)
+ 	return 0;
+ }
+ 
+-static int binder_flush(struct file *filp, fl_owner_t id)
++int binder_flush(struct file *filp, fl_owner_t id)
+ {
+ 	struct binder_proc *proc = filp->private_data;
+ 
+@@ -2896,7 +2896,7 @@ static int binder_flush(struct file *filp, fl_owner_t id)
+ 	return 0;
+ }
+ 
+-static void binder_deferred_flush(struct binder_proc *proc)
++void binder_deferred_flush(struct binder_proc *proc)
+ {
+ 	struct rb_node *n;
+ 	int wake_count = 0;
+@@ -2915,7 +2915,7 @@ static void binder_deferred_flush(struct binder_proc *proc)
+ 		     wake_count);
+ }
+ 
+-static int binder_release(struct inode *nodp, struct file *filp)
++int binder_release(struct inode *nodp, struct file *filp)
+ {
+ 	struct binder_proc *proc = filp->private_data;
+ 	debugfs_remove(proc->debugfs_entry);
+diff --git a/drivers/staging/android/conbinder.c b/drivers/staging/android/conbinder.c
+new file mode 100644
+index 0000000..04da192
+--- /dev/null
++++ b/drivers/staging/android/conbinder.c
+@@ -0,0 +1,823 @@
++/*
++ * conbinder.h
++ *
++ * Android Container Subsystem
++ *
++ * Copyright (C) 2015-2017 ICL/ITRI
++ * All rights reserved.
++ *
++ * NOTICE:  All information contained herein is, and remains
++ * the property of ICL/ITRI and its suppliers, if any.
++ * The intellectual and technical concepts contained
++ * herein are proprietary to ICL/ITRI and its suppliers and
++ * may be covered by Taiwan and Foreign Patents,
++ * patents in process, and are protected by trade secret or copyright law.
++ * Dissemination of this information or reproduction of this material
++ * is strictly forbidden unless prior written permission is obtained
++ * from ICL/ITRI.
++ *
++ */
++
++
++#include "conbinder.h"
++#include <linux/proc_fs.h>
++#include <linux/rwsem.h>
++#include <linux/string.h>
++#include "container.h"
++
++#define MAX_CONBINDER MAX_CONTAINER
++#define MAX_LEN_CONBINDER_NAME 15
++#define CONBINDER_DEF_NAME_LENGTH 11
++#define CONBINDER_NAME_PREFIX_LENGTH (CONBINDER_DEF_NAME_LENGTH - 2)
++#define PROC_BUFFER_SS_CAPACITY PAGE_SIZE
++
++#define BINDER_ULONG_TO_ULONG(x) ((unsigned long)(x))
++
++enum {
++        CONBINDER_DEBUG_INIT                   = 1U << 0,
++	CONBINDER_DEBUG_IOCTL                  = 1U << 0,
++        CONBINDER_DEBUG_OPEN_CLOSE             = 1U << 3,
++        CONBINDER_DEBUG_READ_WRITE             = 1U << 6,
++	CONBINDER_DEBUG_NONE_READ_WRITE        = 1U << 7,
++	CONBINDER_DEBUG_TRANSACTION            = 1U << 8,
++	CONBINDER_DEBUG_FILTER                 = 1U << 9,
++	CONBINDER_DEBUG_SHARED_SERVICE         = 1U << 10,
++};
++
++#define DEBUG_CONBINDER 0
++
++#if DEBUG_CONBINDER
++static uint32_t conbinder_debug_mask = CONBINDER_DEBUG_INIT |
++                                       CONBINDER_DEBUG_IOCTL |
++                                       CONBINDER_DEBUG_OPEN_CLOSE |
++                                       CONBINDER_DEBUG_READ_WRITE |
++                                       CONBINDER_DEBUG_NONE_READ_WRITE |
++                                       CONBINDER_DEBUG_TRANSACTION |
++				       CONBINDER_DEBUG_FILTER |
++				       CONBINDER_DEBUG_SHARED_SERVICE;
++#else
++static uint32_t conbinder_debug_mask = 0; 
++#endif
++
++module_param_named(debug_mask, conbinder_debug_mask, uint, S_IWUSR | S_IRUGO);
++
++#define conbinder_debug(mask, x...) \
++        do { \
++		if (conbinder_debug_mask & mask) \
++			printk(KERN_INFO x); \
++	} while (0)
++
++#define conbinder_error(x...) \
++	do { \
++		printk(KERN_ERR x); \
++	} while (0)
++
++/*
++ * copied from service_manager
++ */
++enum {
++    SVC_MGR_GET_SERVICE = 1,
++    SVC_MGR_CHECK_SERVICE,
++    SVC_MGR_ADD_SERVICE,
++    SVC_MGR_LIST_SERVICES,
++};
++
++struct conbinder_service {
++    char *name;
++    struct rb_node rb_node;
++};
++
++/* proc entries */
++static struct proc_dir_entry *conbinder_proc_root;
++static struct proc_dir_entry *conbinder_proc_sharedservices;
++
++/* proc buffer related data */
++static struct rb_root services_tree;
++static char   *proc_buffer_ss;
++static char   *proc_buffer_ss_wptr;
++static char   *proc_buffer_ss_pptr;
++static struct rw_semaphore proc_ss_rw_sem;
++
++#define proc_buffer_ss_size ((size_t)(proc_buffer_ss_wptr - proc_buffer_ss))
++
++static char default_conbinder_name[CONBINDER_DEF_NAME_LENGTH] = "conbinder1";
++
++static char *default_shared_services[] = {
++	"ServiceManager",
++//	"SurfaceFlinger",
++};
++
++#define default_shared_services_size  (sizeof (default_shared_services) / sizeof (const char *))
++
++/*
++ * add new service
++ */
++static int add_shared_service(char *svc_name, size_t len)
++{
++    struct conbinder_service *new_service;
++    struct rb_node **p = &services_tree.rb_node;
++    struct rb_node *parent = NULL;
++    struct conbinder_service *svc;
++    int cmp;
++
++    /* do not add empty service name */
++    if (len <= 1)
++        return 0;
++
++    conbinder_debug(CONBINDER_DEBUG_SHARED_SERVICE,
++                    "conbinder: adding shared service %s\n", svc_name);
++
++    /* find the service in the tree */
++    while (*p) {
++        parent = *p;
++        svc = rb_entry(parent, struct conbinder_service, rb_node);
++        cmp = strcmp(svc_name, svc->name);
++
++        if (cmp < 0)
++            p = &(*p)->rb_left;
++        else if(cmp > 0)
++            p = &(*p)->rb_right;
++        else {
++	    conbinder_debug(CONBINDER_DEBUG_SHARED_SERVICE,
++                            "conbinder: service %s is already added\n", svc_name);
++            return 0; /* if already in the tree, abort */
++        }
++    }
++
++    /* create a new shared ervice */
++    new_service = (struct conbinder_service *)kzalloc(sizeof(*new_service), GFP_KERNEL);
++    if (new_service == NULL) {
++	conbinder_error("conbinder error: failed to allocate service node for proc fs\n");
++        return -EINVAL;
++    }
++    new_service->name = svc_name;   /* set service name */
++
++    /* insert service to the tree */
++    rb_link_node(&new_service->rb_node, parent, p);
++    rb_insert_color(&new_service->rb_node, &services_tree);
++
++    conbinder_debug(CONBINDER_DEBUG_SHARED_SERVICE,
++                    "conbinder: shared service %s added\n", svc_name);
++
++    return 0;
++}
++
++
++/*
++ *   parse data written to /proc/conbinder/sharedservices
++ *   return the last position parsed
++ */
++static long conbinder_proc_ss_parse(char *start, size_t len)
++{
++    long ret = 0;
++    char *ptr = start;
++    char *end = start + len;
++    char *line_start = start;
++
++    /* scan through the data, add services */
++    while (ptr < end) {
++        if (*ptr == '\n') {     /* end of line found */
++            *ptr = 0;           /* set end flag for service name */
++
++            ret = add_shared_service(line_start, (size_t)(ptr - line_start + 1));
++            if (ret) 
++                break;
++
++            line_start = ptr + 1;   /* new line */
++        }
++
++        ++ ptr;
++    }
++
++    proc_buffer_ss_pptr = line_start;
++    
++    return ret;
++}
++
++/* 
++ * write callback function for /proc/conbinder/sharedservices
++ */
++static ssize_t conbinder_proc_ss_write(struct file *filp, const char __user *buff,
++                                       size_t len, loff_t *pos)
++{
++    ssize_t ret = len;
++
++    /* check whether the buffer is empty */
++    if (proc_buffer_ss == NULL) {
++        pr_err("conbinder error: no proc buffer\n");
++        return -ENOMEM;
++    }
++
++    down_write(&proc_ss_rw_sem);
++
++    conbinder_debug(CONBINDER_DEBUG_SHARED_SERVICE,
++                    "conbinder: proc entry sharedservices write, "
++		    "f_pos=%lld, len=%lu\n", 
++                    filp->f_pos, len);
++    conbinder_debug(CONBINDER_DEBUG_SHARED_SERVICE,
++                    "conbinder: %lu bytes of data already written\n",
++		    proc_buffer_ss_size);
++
++    /* check whether buffer can hold data */
++    if (proc_buffer_ss_size + len > PROC_BUFFER_SS_CAPACITY) {
++        conbinder_error("conbinder error: cannot write data to sharedservices, full buffer\n");
++        ret = -ENOSPC;
++        goto out_unlock;
++    }
++
++    /* copy data from user space */
++    if (copy_from_user(proc_buffer_ss_wptr, buff, len)) {
++        conbinder_error("conbinder error: failed to copy data from user space to proc fs\n");
++        ret = -EFAULT;
++        goto out_unlock;
++    }
++    proc_buffer_ss_wptr += len;
++
++    /* parse written data */
++    ret = conbinder_proc_ss_parse(proc_buffer_ss_pptr, 
++        (size_t)(proc_buffer_ss_wptr - proc_buffer_ss_pptr));
++    if (ret) {
++        conbinder_error("conbinder error: error occured when parsing written data\n");
++        goto out_unlock;
++    }
++
++    ret = len;
++
++out_unlock:
++    up_write(&proc_ss_rw_sem);
++    return ret;
++}
++
++/* 
++ *   read callback function for /proc/conbinder/sharedservices
++ */
++#if 0
++static int conbinder_proc_ss_read(char *buffer, char **start, off_t offset,
++                   int count, int *eof, void *data)
++{
++    size_t actual_count = offset + count;
++    char *ptr;
++
++    /*
++    pr_info("conbinder: proc entry sharedservices read, offset=%ld, count=%d\n", 
++        offset, count);
++    pr_info("conbinder: %u bytes of data available\n", proc_buffer_ss_size);
++    */
++
++    /* set start as NULL to match 0) (see fs/proc/generic.c) */
++    *start = NULL;
++
++    /* check whether the buffer is empty */
++    if (proc_buffer_ss == NULL) {
++        conbinder_error("conbinder error: no proc buffer\n");
++        *eof = 1;
++        return offset;
++    }
++
++    down_read(&proc_ss_rw_sem);
++
++    /* check whether trying to read data out of boundary */
++    if (offset > proc_buffer_ss_size) {
++        *eof = 1;
++        up_read(&proc_ss_rw_sem);
++        return -EINVAL;
++    }
++    
++    /* check whether there is enough data */
++    if (actual_count >= proc_buffer_ss_size) {
++        actual_count = proc_buffer_ss_size;
++        *eof = 1;
++    }
++
++    /* copy data to buffer */
++    memcpy(buffer, proc_buffer_ss, actual_count);
++    for (ptr = buffer; ptr < buffer + actual_count; ++ ptr) {
++        if (*ptr == 0)
++            *ptr = '\n'; /* change it back */
++    }
++
++    up_read(&proc_ss_rw_sem);
++
++    return actual_count; /* return data available in buffer */
++}
++#endif
++
++static int conbinder_proc_ss_show(struct seq_file *m, void *v)
++{
++    char *ptr;
++
++    /* check whether the buffer is empty */
++    if (proc_buffer_ss == NULL) {
++        conbinder_error("conbinder error: no proc buffer\n");
++        return -ENOMEM;
++    }
++
++    down_read(&proc_ss_rw_sem);
++
++    /* copy data to buffer */
++    seq_write(m, proc_buffer_ss, proc_buffer_ss_size);
++
++    for (ptr = m->buf + m->count - proc_buffer_ss_size; ptr < m->buf + m->count; ++ ptr) {
++        if (*ptr == 0)
++            *ptr = '\n'; /* change it back */
++    }
++
++    up_read(&proc_ss_rw_sem);
++
++    return 0;
++}
++
++/*
++ * compare a UTF-16 string with a ASCII string
++ */
++static int strcmp16(uint16_t *s16, char *s8)
++{
++    unsigned char c1, c2;
++
++//#if DEBUG_CONBINDER 
++#if 0
++    uint16_t *tmp = s16;
++    //conbinder_debug(CONBINDER_DEBUG_SHARED_SERVICE, "conbinder : service name : ");
++    printk("conbinder : service name : ");
++    while(1) {
++    c1 = (char)(*tmp++);
++    printk("%c",c1);
++    if(!c1) 
++      break;
++    }
++    printk("\n");
++#endif
++
++    while (1) {
++        c1 = (char)(*s16++);
++        c2 = *s8++;
++        if(c1 != c2)
++            return c1 < c2 ? -1 : 1;
++         if (!c1)
++            break;
++    }
++    return 0;
++}
++
++/* 
++ * replace the service name 
++ */
++static void replace_name(uint16_t *str, size_t len, char magic, unsigned int trcode) {
++    struct rb_node **p = &services_tree.rb_node;
++    struct rb_node *parent = NULL;
++    struct conbinder_service *svc;
++    int cmp;
++#if 0
++    int i;
++#endif
++    /* find the service in the tree */
++    if(trcode != SVC_MGR_ADD_SERVICE ) {
++        while (*p) {
++            parent = *p;
++            svc = rb_entry(parent, struct conbinder_service, rb_node);
++            cmp = strcmp16(str, svc->name);
++
++            //VICTOR TEST
++            //printk("conbinder : service_name %s \n", svc->name);
++
++            if (cmp < 0)
++                p = &(*p)->rb_left;
++            else if(cmp > 0)
++                p = &(*p)->rb_right;
++            else {
++	        conbinder_debug(CONBINDER_DEBUG_FILTER,
++                            "conbinder: service %s found in shared services list\n",
++			    svc->name);
++                return; /* if service is in the tree, abort */
++            }
++        }
++    }
++#if 0
++    for (i = 0; i < len-1; ++i)
++        str[i] = str[i+1];
++    str[len - 1] = (uint16_t)magic;
++#else 
++    str[0] = (uint16_t)magic;
++#endif
++
++//printk("conbinder : replace_name %s \n", (char*)str);
++
++}
++
++/* 
++ * skip a string of type String16
++ */
++static void *skip_string16(void *buffer) {
++    size_t string_size;
++    int32_t len = *((int32_t*)buffer);
++
++    if (len < 0)
++        return buffer + sizeof(len);
++
++    string_size = (len + 1) * sizeof(uint16_t);
++    string_size = (string_size + 3) & (~3);
++
++    return buffer + sizeof(len) + string_size;
++}
++
++/*
++    skip an interface token
++*/
++static void *skip_interface_token(void *buffer) {
++    void *ptr = buffer;
++
++    if (!ptr)
++        return 0;
++
++    ptr += sizeof(int32_t);     /* skip strict policy */
++    ptr = skip_string16(ptr);
++
++    return ptr;
++}
++
++/*
++    get the # of conbinder device
++*/
++static char get_conbinder_number_c(struct file *filp) 
++{
++    const char *node_name = filp->f_dentry->d_name.name;
++
++    return node_name[CONBINDER_NAME_PREFIX_LENGTH];
++}
++
++/*
++ *   filter transaction from container to service manager
++ */
++static long conbinder_filter_transaction_smgr(struct file *filp, struct binder_transaction_data *tr) 
++{
++    void *buffer = NULL;
++    void *ptr = NULL;
++    int32_t name_len = 0;
++    void __user *ubuf = NULL;
++
++    /* check function code of Service Manager */
++    if (tr->code != SVC_MGR_ADD_SERVICE &&
++        tr->code != SVC_MGR_CHECK_SERVICE &&
++        tr->code != SVC_MGR_GET_SERVICE) {
++        return 0;
++    }
++
++    //DEBUG
++#if 0
++    switch(tr->code) {
++        case SVC_MGR_ADD_SERVICE :
++            printk("conbinder : SVC_MGR_ADD_SERVICE \n");
++            break;
++        
++        case SVC_MGR_CHECK_SERVICE :
++            printk("conbinder : SVC_MGR_CHECK_SERVICE \n");
++            break;
++        
++        case SVC_MGR_GET_SERVICE :
++            printk("conbinder : SVC_MGR_GET_SERVICE \n");
++            break;
++        default :
++            printk("conbinder : tr->code %d \n ", tr->code);
++            break;
++    }
++#endif
++
++    /* allocate buffer */
++    buffer = kzalloc(tr->data_size, GFP_KERNEL);
++    if (!buffer) {
++        conbinder_error("conbinder error: failed to allocate buffer for filter\n");
++        return -ENOMEM;
++    }
++
++    /* copy transaction data from user space */
++    //ubuf = (void __user *)(unsigned long)(tr->data.ptr.buffer);
++    ubuf = (void __user *)(uintptr_t)tr->data.ptr.buffer;
++    if (copy_from_user(buffer, ubuf, tr->data_size)) {
++        kfree(buffer);
++        return -EFAULT;
++    }
++
++    /* read the interface token */
++    ptr = skip_interface_token(buffer);
++
++    /* get length of service name */
++    name_len = *((int32_t*)ptr);
++    ptr += sizeof(name_len);
++
++    if (name_len < 0) {
++        pr_err("conbinder error: invalid service name\n");
++    }
++
++    conbinder_debug(CONBINDER_DEBUG_FILTER,
++                    "conbinder: filtering transaction for function code %d\n", tr->code);
++    conbinder_debug(CONBINDER_DEBUG_FILTER,
++		    "conbinder: length of service name: %d\n", name_len);
++
++    /* modify service name */
++    replace_name((uint16_t *)ptr, (size_t)name_len, get_conbinder_number_c(filp), tr->code);
++
++    /* copy back to user space */
++    if(copy_to_user(ubuf, buffer, tr->data_size)) {
++        kfree(buffer);
++        return -EFAULT;
++    }
++    
++    /* free buffer */
++    kfree(buffer);
++
++    return 0;
++}
++
++/*
++ * filter transaction data from container
++ */
++static long conbinder_filter_transaction(struct file *filp, struct binder_transaction_data *tr) 
++{
++    conbinder_debug(CONBINDER_DEBUG_FILTER,
++                    "conbinder: filtering transaction with buffer 0x%lx\n",
++		    (unsigned long)(tr->data.ptr.buffer));
++    
++    if(tr->target.handle == 0) {
++        return conbinder_filter_transaction_smgr(filp, tr);
++    }
++
++    return 0;
++}
++
++/*
++ * ioctl function for conbinder driver
++ */
++static long conbinder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
++{
++    struct binder_write_read bwr;
++    unsigned int size = _IOC_SIZE(cmd);
++    long ret = 0;
++    void __user *ubuf = (void __user *)arg;
++    uint32_t binder_cmd;
++
++    conbinder_debug(CONBINDER_DEBUG_IOCTL,
++                    "conbinder: conbinder_ioctl called with node name: %s\n",
++		    filp->f_dentry->d_name.name);
++
++    if (cmd == CONBINDER_GET_CURRENT_CONTAINER) {
++        char container_c = get_conbinder_number_c(filp);
++        int container = container_c - '0';
++
++        conbinder_debug(CONBINDER_DEBUG_IOCTL,
++			"conbinder: getting current container in container\n");
++
++        if (copy_to_user(ubuf, &container, sizeof(container))) {
++            conbinder_error("conbinder err: error getting current container in container\n");
++            ret = -EINVAL;
++            goto err;
++        }
++        
++        return 0;
++    }
++
++    conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : CHECK COMMAND , cmd=%x START \n", cmd);
++
++    switch(cmd) {
++    case BINDER_WRITE_READ :    
++        conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : cmd = %x BINDER_WRITE_READ \n", cmd);
++        break;
++    case BINDER_SET_IDLE_TIMEOUT :
++        conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : cmd = %x BINDER_SET_IDLE_TIMEOUT \n", cmd);
++        break;
++    case BINDER_SET_MAX_THREADS :
++        conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : cmd = %x BINDER_SET_MAX_THREADS \n", cmd);
++        break;
++    case BINDER_SET_IDLE_PRIORITY :
++        conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : cmd = %x BINDER_SET_IDLE_PRIORITY \n", cmd);
++        break;
++    case BINDER_SET_CONTEXT_MGR :
++        conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : cmd = %x BINDER_SET_CONTEXT_MGR \n", cmd);
++        break;
++    case BINDER_THREAD_EXIT :
++        conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : cmd = %x BINDER_THREAD_EXIT \n", cmd);
++        break;
++    case BINDER_VERSION :
++        conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : cmd = %x BINDER_VERSION \n", cmd);
++        break;
++    }
++
++    conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : CHECK COMMAND , cmd=%x END \n", cmd);
++
++    /* check command */
++    if (cmd != BINDER_WRITE_READ) {
++	conbinder_debug(CONBINDER_DEBUG_NONE_READ_WRITE,
++                        "conbinder: command %x do not require filtering\n", cmd);
++        return binder_ioctl(filp, cmd, arg);
++    }
++
++    conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : CHECK SIZE , size=%u sizeof(struct binder_write_read) = %lu \n", size, sizeof(struct binder_write_read));
++    /* check size */
++    if (size != sizeof(struct binder_write_read)) {
++        ret = -EINVAL;
++        goto err;
++    }
++
++    
++    conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : copy binder_write_read struct from user space \n");
++    /* copy binder_write_read struct from user space */
++    if (copy_from_user(&bwr, ubuf, sizeof(bwr))) {
++        ret = -EFAULT;
++        goto err;
++    }
++
++    if (bwr.write_size > 0) {
++        void __user *wb_ptr = (void __user *) (uintptr_t)bwr.write_buffer;
++        void __user *wb_end = wb_ptr + bwr.write_size;
++
++        while (wb_ptr < wb_end) {
++            if (get_user(binder_cmd, (uint32_t __user *)wb_ptr))    /* get command */
++                return -EFAULT;
++            wb_ptr += sizeof(uint32_t);
++
++            conbinder_debug(CONBINDER_DEBUG_IOCTL, "conbinder : binder_cmd = %d \n", binder_cmd);
++            switch (binder_cmd) {
++            case BC_TRANSACTION: { /* only BC_TRANSACTION commands are filtered */
++                struct binder_transaction_data tr;
++
++                conbinder_debug(CONBINDER_DEBUG_TRANSACTION,
++			        "conbinder: BC_TRANSACTION got with write buffer 0x%lx\n",
++				(unsigned long)(bwr.write_buffer));
++
++                if (copy_from_user(&tr, wb_ptr, sizeof(tr)))
++                    return -EFAULT;
++                wb_ptr += sizeof(tr);
++                ret = conbinder_filter_transaction(filp, &tr); /* filter transaction */
++                break;
++            }
++
++            /*
++            case BC_REPLY:
++            case BC_ACQUIRE_RESULT:
++            case BC_ATTEMPT_ACQUIRE:
++            case BC_FREE_BUFFER:
++            case BC_INCREFS:
++            case BC_ACQUIRE:
++            case BC_RELEASE:
++            case BC_DECREFS:
++            case BC_INCREFS_DONE:
++            case BC_ACQUIRE_DONE:
++            case BC_REGISTER_LOOPER:
++            case BC_ENTER_LOOPER:
++            case BC_EXIT_LOOPER:
++            case BC_REQUEST_DEATH_NOTIFICATION:
++            case BC_DEAD_BINDER_DONE:
++            case BC_CLEAR_DEATH_NOTIFICATION:
++            */
++
++            default:
++                wb_ptr += _IOC_SIZE(binder_cmd);
++                break;
++            }
++        }
++    }
++
++    if (ret)
++        return ret;
++
++    /* call original driver function */
++    return binder_ioctl(filp, cmd, arg);
++
++err:
++    return ret;
++}
++
++static const struct file_operations conbinder_fops = {
++    .owner = THIS_MODULE,
++    .poll = binder_poll,
++    .unlocked_ioctl = conbinder_ioctl,
++#ifdef CONFIG_COMPAT
++    .compat_ioctl = conbinder_ioctl,
++#endif
++    .mmap = binder_mmap,
++    .open = binder_open,
++    .flush = binder_flush,
++    .release = binder_release,
++};
++
++/* device data */
++static struct miscdevice conbinder_miscdevs[MAX_CONBINDER];
++static char conbinder_names[MAX_CONBINDER][MAX_LEN_CONBINDER_NAME];
++
++/*
++ *   initialize conbinder device structures
++ */
++static void init_devs(int nr_devs) 
++{
++    int i;
++
++    /* initialize the first one */
++    memcpy(conbinder_names[0], default_conbinder_name, sizeof(default_conbinder_name));
++    conbinder_miscdevs[0].minor = MISC_DYNAMIC_MINOR;
++    conbinder_miscdevs[0].name = conbinder_names[0];
++    conbinder_miscdevs[0].fops = &conbinder_fops;
++    conbinder_miscdevs[0].mode = S_IRUGO | S_IWUGO;
++
++    /* initialize the rest structures */
++    for (i = 1; i < nr_devs; i++) {
++        memcpy(conbinder_miscdevs + i, conbinder_miscdevs, sizeof(conbinder_miscdevs[0]));
++
++        memcpy(conbinder_names[i], conbinder_names[0], sizeof(conbinder_names[0]));
++        conbinder_names[i][sizeof(default_conbinder_name) - 2] = (char)(i) + '1';
++
++        conbinder_miscdevs[i].name = conbinder_names[i];
++    }
++}
++
++/*
++ *   register conbinder device structures
++ */
++static int register_devs(int nr_devs) 
++{
++    int i;
++    int ret;
++
++    for (i = 0; i < nr_devs; i++) {
++        ret = misc_register(conbinder_miscdevs + i);
++
++        if (ret) {
++            conbinder_error("conbinder error: "
++			    "cannot register conbinder device driver for conbinder%d\n", i+1);
++            return ret;
++        }
++    }
++
++    return ret;
++}
++
++
++static void init_default_shared_services(void)
++{
++    int i; 
++
++    for(i = 0; i < default_shared_services_size; i++)    {
++        add_shared_service(default_shared_services[i],
++			   strlen(default_shared_services[i]));
++    }
++}
++
++
++
++
++static int conbinder_proc_open(struct inode *inode, struct file *file)
++{
++        return single_open(file, conbinder_proc_ss_show, NULL);
++}
++
++static const struct file_operations conbinder_proc_fops = {
++        .owner          = THIS_MODULE,
++        .open           = conbinder_proc_open,
++        .read           = seq_read,
++        .llseek         = seq_lseek,
++        .release        = single_release,
++        .write          = conbinder_proc_ss_write,
++};
++
++static int __init conbinder_init(void)
++{
++    int ret;
++
++    init_devs(MAX_CONBINDER);
++    ret = register_devs(9);
++    init_default_shared_services();
++
++    conbinder_debug(CONBINDER_DEBUG_INIT,
++                    "conbinder: initializing conbinder driver\n");
++
++    conbinder_proc_root = proc_mkdir("conbinder", NULL);
++    if(conbinder_proc_root == NULL) {
++        ret = -ENOMEM;
++        conbinder_error("conbinder error: cannot create proc dir /proc/conbinder\n");
++    } else {
++        conbinder_proc_sharedservices = proc_create("sharedservices", 0666, conbinder_proc_root, &conbinder_proc_fops);
++
++        if (conbinder_proc_sharedservices == NULL) {
++            conbinder_error("conbinder error: cannot create proc entry /proc/conbinder/sharedservices\n");
++            ret = -ENOMEM;
++        } else {
++            conbinder_debug(CONBINDER_DEBUG_INIT,
++			    "conbinder: /proc/conbinder/sharedservices created\n");
++        
++            proc_buffer_ss = (char*)get_zeroed_page(GFP_KERNEL);
++            if (proc_buffer_ss == NULL) {
++                conbinder_error("conbinder error: failed to allocate proc buffer for shared services\n");
++                return -ENOMEM;
++            }
++
++            proc_buffer_ss_wptr = proc_buffer_ss;
++            proc_buffer_ss_pptr = proc_buffer_ss;
++
++            init_rwsem(&proc_ss_rw_sem);
++        }
++    }
++
++    return ret;
++}
++
++module_init(conbinder_init);
++
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/staging/android/conbinder.h b/drivers/staging/android/conbinder.h
+new file mode 100644
+index 0000000..f2c0723
+--- /dev/null
++++ b/drivers/staging/android/conbinder.h
+@@ -0,0 +1,36 @@
++#include <asm/cacheflush.h>
++#include <linux/fdtable.h>
++#include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/list.h>
++#include <linux/miscdevice.h>
++#include <linux/mm.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/nsproxy.h>
++#include <linux/poll.h>
++#include <linux/debugfs.h>
++#include <linux/rbtree.h>
++#include <linux/sched.h>
++#include <linux/seq_file.h>
++#include <linux/slab.h>
++#include <linux/uaccess.h>
++#include <linux/vmalloc.h>
++
++#include "binder.h"
++
++#define CONBINDER_GET_CURRENT_CONTAINER _IOR('b', 11, int)
++
++unsigned int binder_poll(struct file *filp, struct poll_table_struct *wait);
++
++long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
++
++int binder_mmap(struct file *filp, struct vm_area_struct *vma);
++
++int binder_open(struct inode *nodp, struct file *filp);
++
++int binder_flush(struct file *filp, fl_owner_t id);
++
++int binder_release(struct inode *nodp, struct file *filp);
++
++struct file_operations binder_fops;
+diff --git a/drivers/staging/android/container.c b/drivers/staging/android/container.c
+new file mode 100644
+index 0000000..c1f3b52
+--- /dev/null
++++ b/drivers/staging/android/container.c
+@@ -0,0 +1,370 @@
++/*
++ * container.c
++ *
++ * Android Container Subsystem
++ *
++ * Copyright (C) 2015-2017 ICL/ITRI
++ * All rights reserved.
++ *
++ * NOTICE:  All information contained herein is, and remains
++ * the property of ICL/ITRI and its suppliers, if any.
++ * The intellectual and technical concepts contained
++ * herein are proprietary to ICL/ITRI and its suppliers and
++ * may be covered by Taiwan and Foreign Patents,
++ * patents in process, and are protected by trade secret or copyright law.
++ * Dissemination of this information or reproduction of this material
++ * is strictly forbidden unless prior written permission is obtained
++ * from ICL/ITRI.
++ *
++ */
++
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/uaccess.h>
++#include <linux/proc_fs.h>
++#include <linux/rwsem.h>
++#include <linux/string.h>
++#include <linux/miscdevice.h>
++#include <linux/device.h>
++#include "container.h"
++
++#define BINDER_ULONG_TO_ULONG(x) ((unsigned long)(x))
++
++enum {
++        CONTAINER_DEBUG_INIT                   = 1U << 0,
++	CONTAINER_DEBUG_IOCTL                  = 1U << 1,
++        CONTAINER_DEBUG_OPEN_CLOSE             = 1U << 2,
++        CONTAINER_DEBUG_READ_WRITE             = 1U << 3,
++};
++
++#ifdef DEBUG_CONTAINER
++static uint32_t container_debug_mask = CONTAINER_DEBUG_INIT |
++                                       CONTAINER_DEBUG_IOCTL | 
++                                       CONTAINER_DEBUG_READ_WRITE;
++#else
++static uint32_t container_debug_mask = 0 ;
++#endif
++
++module_param_named(debug_mask, container_debug_mask, uint, S_IWUSR | S_IRUGO);
++
++#define container_debug(mask, x...) \
++        do { \
++		if (container_debug_mask & mask) \
++			printk(KERN_INFO x); \
++	} while (0)
++
++#define container_error(x...) \
++	do { \
++		printk(KERN_ERR x); \
++	} while (0)
++
++/* proc entries */
++static struct proc_dir_entry *container_proc_root;
++static struct proc_dir_entry *container_proc_active;
++static struct proc_dir_entry *container_proc_ready;
++
++
++/* proc buffer related data */
++static struct rw_semaphore proc_rw_sem;
++
++static struct miscdevice container_miscdev;
++
++#if 1
++
++static int active_container = 0;
++static int ready_container = 0;
++
++
++static int container_send_uevent(int event_id)
++{
++  char event_string[32];
++  char *envp[] = { event_string, NULL };
++
++  snprintf(event_string, sizeof(event_string), "ACTIVE_CONTAINER_CHANGED=%d", event_id);
++
++  container_debug(CONTAINER_DEBUG_READ_WRITE, " container_send_uevent %s \n", event_string);
++
++  return kobject_uevent_env(&container_miscdev.this_device->kobj, KOBJ_CHANGE, envp);
++}
++
++static int container_send_uevent_ready(int event_id)
++{
++  char event_string[32];
++  char *envp[] = { event_string, NULL };
++
++  snprintf(event_string, sizeof(event_string), "CONTAINER_READY=%d", event_id);
++
++  container_debug(CONTAINER_DEBUG_READ_WRITE, " container_send_uevent %s \n", event_string);
++
++  return kobject_uevent_env(&container_miscdev.this_device->kobj, KOBJ_CHANGE, envp);
++}
++
++/* 
++ * write callback function for /proc/container/active
++ */
++static ssize_t container_active_proc_write(struct file *filp, const char __user *buffer,
++                                           size_t count, loff_t *pos)
++{
++    int ret = 0;
++    int active = 0;
++    char buf[32];
++    size_t len = min_t(size_t, sizeof(buf) - 1, count);
++
++    container_debug(CONTAINER_DEBUG_READ_WRITE,
++                    "container: proc entry active write, "
++                    "f_pos=%lld, len=%lu\n",
++                    filp->f_pos, len);
++
++    down_write(&proc_rw_sem);
++
++    if (copy_from_user(buf, buffer, len)) {
++        ret = -EFAULT;
++        goto out_unlock; 
++    }
++
++    buf[len] = 0;
++
++    ret = kstrtoint(buf, 10, &active);
++
++    if(ret) 
++        goto out_unlock;
++
++    if(active > MAX_CONTAINER)    {
++        ret = -EINVAL;
++        goto out_unlock;
++    }
++
++    ret = strnlen(buf, count);
++
++    if(active_container != active)    {
++        /* 
++         * raise uevent here
++	 */
++        active_container = active;
++        container_send_uevent(active);
++    }
++
++out_unlock:
++    up_write(&proc_rw_sem);
++    return ret;
++}
++
++
++/* 
++ * read callback function for /proc/container/active
++ */
++static int container_active_proc_show(struct seq_file *m, void *v)
++{
++    down_read(&proc_rw_sem);
++
++    seq_printf(m, "%d", active_container);
++
++    up_read(&proc_rw_sem);
++
++    return 0;
++}
++
++/* 
++ * write callback function for /proc/container/ready
++ */
++static ssize_t container_ready_proc_write(struct file *filp, const char __user *buffer,
++                                           size_t count, loff_t *pos)
++{
++    int ret = 0;
++    int ready = 0;
++    char buf[32];
++    size_t len = min_t(size_t, sizeof(buf) - 1, count);
++
++    container_debug(CONTAINER_DEBUG_READ_WRITE,
++                    "container: proc entry ready write, "
++                    "f_pos=%lld, len=%lu\n",
++                    filp->f_pos, len);
++
++    down_write(&proc_rw_sem);
++
++    if (copy_from_user(buf, buffer, len)) {
++        ret = -EFAULT;
++        goto out_unlock;
++    }
++
++    buf[len] = 0;
++
++    ret = kstrtoint(buf, 10, &ready);
++
++    if(ret)
++        goto out_unlock;
++
++    if(ready > MAX_CONTAINER)    {
++        ret = -EINVAL;
++        goto out_unlock;
++    }
++
++    ret = strnlen(buf, count);
++
++    /* 
++     * raise uevent here
++    */
++    ready_container = ready;
++    container_send_uevent_ready(ready);
++
++out_unlock:
++    up_write(&proc_rw_sem);
++    return ret;
++}
++
++/* 
++ * read callback function for /proc/container/ready
++ */
++static int container_ready_proc_show(struct seq_file *m, void *v)
++{
++    down_read(&proc_rw_sem);
++
++    seq_printf(m, "%d", ready_container);
++
++    up_read(&proc_rw_sem);
++
++    return 0;
++}
++
++#endif
++
++/*
++ * ioctl function for container driver
++ */
++static long container_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
++{
++    return 0;
++}
++
++
++static const struct file_operations container_fops = {
++    .owner = THIS_MODULE,
++    .poll = NULL,
++    .unlocked_ioctl = container_ioctl,
++#ifdef CONFIG_COMPAT
++    .compat_ioctl = container_ioctl,
++#endif
++    .mmap = NULL,
++    .open = NULL,
++    .flush = NULL,
++    .release = NULL,
++};
++
++/*
++ *   initialize container device structures
++ */
++static void init_device(void) 
++{
++    container_miscdev.minor = MISC_DYNAMIC_MINOR;
++    container_miscdev.name  = "container";
++    container_miscdev.fops  = &container_fops;
++    container_miscdev.mode  = S_IRUGO | S_IWUGO;
++}
++
++/*
++ *   register container device structures
++ */
++static int register_dev(void) 
++{
++    int ret;
++
++    ret = misc_register(&container_miscdev);
++
++    if (ret) {
++        container_error("container error: "
++	                "cannot register container device driver\n");
++    }
++
++    return ret;
++}
++
++static int container_active_proc_open(struct inode *inode, struct file *file)
++{
++        return single_open(file, container_active_proc_show, NULL);
++}
++
++static const struct file_operations container_active_proc_fops = {
++        .owner          = THIS_MODULE,
++        .open           = container_active_proc_open,
++        .read           = seq_read,
++        .llseek         = seq_lseek,
++        .release        = single_release,
++        .write          = container_active_proc_write,
++};
++
++
++static int container_ready_proc_open(struct inode *inode, struct file *file)
++{
++        return single_open(file, container_ready_proc_show, NULL);
++}
++
++static const struct file_operations container_ready_proc_fops = {
++        .owner          = THIS_MODULE,
++        .open           = container_ready_proc_open,
++        .read           = seq_read,
++        .llseek         = seq_lseek,
++        .release        = single_release,
++        .write          = container_ready_proc_write,
++};
++
++
++
++static int __init container_init(void)
++{
++    int ret;
++
++    init_device();
++    ret = register_dev();
++
++    if(ret)    return ret;
++
++    init_rwsem(&proc_rw_sem);
++
++    container_debug(CONTAINER_DEBUG_INIT,
++                    "container: initializing container driver\n");
++
++    container_proc_root = proc_mkdir("container", NULL);
++    if(container_proc_root == NULL) {
++        ret = -ENOMEM;
++        container_error("container error: cannot create proc dir /proc/container\n");
++    } else {
++        container_proc_active = proc_create("active", 0666, container_proc_root, &container_active_proc_fops) ;
++
++        if (container_proc_active == NULL) {
++            container_error("container error: cannot create proc entry /proc/container/active\n");
++            ret = -ENOMEM;
++        } else {
++            container_debug(CONTAINER_DEBUG_INIT,
++			    "container: /proc/container/active created\n");
++        }
++        container_proc_ready = proc_create("ready", 0666, container_proc_root, &container_ready_proc_fops);
++
++        if (container_proc_ready == NULL) {
++            container_error("container error: cannot create proc entry /proc/container/ready\n");
++            ret = -ENOMEM;
++        } else {
++            container_debug(CONTAINER_DEBUG_INIT,
++                            "container: /proc/container/ready created\n");
++        }
++
++    }
++
++    return ret;
++}
++
++static void __exit container_exit(void)
++{
++        if (container_proc_root) {
++                remove_proc_entry("active", container_proc_root);
++                remove_proc_entry("ready", container_proc_root);
++                remove_proc_entry("container", NULL);
++                container_proc_root = NULL;
++        }
++
++        misc_deregister(&container_miscdev);
++}
++
++module_exit(container_exit);
++module_init(container_init);
++
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/staging/android/container.h b/drivers/staging/android/container.h
+new file mode 100644
+index 0000000..4d19901
+--- /dev/null
++++ b/drivers/staging/android/container.h
+@@ -0,0 +1,15 @@
++#ifndef _LINUX_CONTAINER_H
++#define _LINUX_CONTAINER_H
++
++#include <linux/ioctl.h>
++
++#define CONTAINER_REGISTER      _IOW('c', 1, int)
++#define CONTAINER_GET_FRONT_ID  _IOR('c', 2, int)
++#define CONTAINER_SET_FRONT_ID  _IOW('c', 3, int)
++#define CONTAINER_GET_STACK_POS _IOWR('c', 4, int)
++#define CONTAINER_WAIT_FOR_NEW_POS _IOWR('c', 5, int)
++#define CONTAINER_GET_AVAILABLE _IOR('c', 6, long)
++
++#define MAX_CONTAINER 9
++
++#endif
+diff --git a/drivers/video/owl/dss/core/panel.c b/drivers/video/owl/dss/core/panel.c
+index fd4c903..34074f5 100755
+--- a/drivers/video/owl/dss/core/panel.c
++++ b/drivers/video/owl/dss/core/panel.c
+@@ -15,6 +15,7 @@
+  * Change log:
+  *	2015/8/20: Created by Lipeng.
+  */
++#define DEBUG
+ #define DEBUGX
+ #define pr_fmt(fmt) "owl_panel: %s, " fmt, __func__
+ 
+@@ -459,16 +460,17 @@ EXPORT_SYMBOL(owl_panel_get_refresh_rate);
+ 
+ void owl_panel_get_draw_size(struct owl_panel *panel, int *width, int *height)
+ {
++//pr_info("%s %s %d",__FILE__,__FUNCTION__,__LINE__);
+ 	if (panel == NULL)
+ 		return;
+-
++//pr_info("%s %s %d",__FILE__,__FUNCTION__,__LINE__);
+ 	if (panel->draw_width == 0 || panel->draw_height == 0) {
+ 		if (panel->mode.xres != 0 && panel->mode.yres != 0) {
+-			pr_debug("use 'mode' as draw size\n");
++			pr_info("use 'mode' as draw size\n");
+ 			*width = panel->mode.xres;
+ 			*height = panel->mode.yres;
+ 		} else {
+-			pr_debug("use default size as draw size\n");
++			pr_info("use default size as draw size\n");
+ 			*width = 1920;
+ 			*height = 1080;
+ 		}
+@@ -545,19 +547,19 @@ int owl_panel_parse_panel_info(struct device_node *of_node,
+ 	else
+ 		desc->hotplug_always_on = (val == 1 ? true : false);
+ 
+-	pr_debug("%dmm x %dmm, bpp %d\n", desc->width_mm,
++	pr_info("%dmm x %dmm, bpp %d\n", desc->width_mm,
+ 		 desc->height_mm, desc->bpp);
+ 
+-	pr_debug("power_on_delay %d, power_off_delay %d\n",
++	pr_info("power_on_delay %d, power_off_delay %d\n",
+ 		 desc->power_on_delay, desc->power_off_delay);
+-	pr_debug("enable_delay %d, disable_delay %d\n",
++	pr_info("enable_delay %d, disable_delay %d\n",
+ 		 desc->enable_delay, desc->disable_delay);
+ 
+-	pr_debug("hotplug_always_on %d\n", desc->hotplug_always_on);
++	pr_info("hotplug_always_on %d\n", desc->hotplug_always_on);
+ 
+ 	OF_READ_U32("draw_width", &panel->draw_width);
+ 	OF_READ_U32("draw_height", &panel->draw_height);
+-	pr_debug("draw size %dx%d\n", panel->draw_width, panel->draw_height);
++	pr_info("draw size %dx%d\n", panel->draw_width, panel->draw_height);
+ 
+ 	/*
+ 	 * parse default video mode, some can be zero
+@@ -578,11 +580,11 @@ int owl_panel_parse_panel_info(struct device_node *of_node,
+ 		OF_READ_U32("vsync_len", &mode->vsw);
+ 	}
+ 
+-	pr_debug("%d x %d, refresh %d\n", mode->xres, mode->yres,
++	pr_info("%d x %d, refresh %d\n", mode->xres, mode->yres,
+ 		 mode->refresh);
+ 
+-	pr_debug("pixclock %d\n", mode->pixclock);
+-	pr_debug("hfp %d, hbp %d, vfp %d, vbp %d, hsw %d, vsw %d\n",
++	pr_info("pixclock %d\n", mode->pixclock);
++	pr_info("hfp %d, hbp %d, vfp %d, vbp %d, hsw %d, vsw %d\n",
+ 		 mode->hfp, mode->hbp, mode->vfp, mode->vbp,
+ 		 mode->hsw, mode->vsw);
+ 
+diff --git a/drivers/video/owl/dss/panel/panel-ghp.c b/drivers/video/owl/dss/panel/panel-ghp.c
+index eb8fcb8..05a3193 100644
+--- a/drivers/video/owl/dss/panel/panel-ghp.c
++++ b/drivers/video/owl/dss/panel/panel-ghp.c
+@@ -15,6 +15,7 @@
+  * Change log:
+  *	2015/9/9: Created by Lipeng.
+  */
++#define DEBUG
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+diff --git a/include/linux/uidgid.h b/include/linux/uidgid.h
+index 8e522cb..0a255d5 100644
+--- a/include/linux/uidgid.h
++++ b/include/linux/uidgid.h
+@@ -16,7 +16,7 @@
+ 
+ struct user_namespace;
+ extern struct user_namespace init_user_ns;
+-
++#undef CONFIG_UIDGID_STRICT_TYPE_CHECKS
+ #ifdef CONFIG_UIDGID_STRICT_TYPE_CHECKS
+ 
+ typedef struct {
