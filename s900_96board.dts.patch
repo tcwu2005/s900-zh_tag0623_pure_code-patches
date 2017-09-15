@@ -1,0 +1,15 @@
+diff --git a/arch/arm64/boot/dts/s900_96board.dts b/arch/arm64/boot/dts/s900_96board.dts
+index b50b51a..cce9cb8 100755
+--- a/arch/arm64/boot/dts/s900_96board.dts
++++ b/arch/arm64/boot/dts/s900_96board.dts
+@@ -447,8 +447,8 @@
+ 			hotplugable = <1>;
+ 			hotplug_always_on = <1>;
+ 
+-			draw_width = <1334>;
+-			draw_height = <750>;
++			draw_width = <1920>;
++			draw_height = <1080>;
+ 
+ 		};
+ 	};
